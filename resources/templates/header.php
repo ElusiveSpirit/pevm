@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -8,12 +7,18 @@
 </head>
 
 <body>
-<div id="header">
-    <h1>Simple Site</h1>
-    <ul class="nav global">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Articles</a></li>
-        <li><a href="#">Portfolio</a></li>
-    </ul>
-
-</div>
+  <header>
+    <?php
+        if ($_SESSION['is_auth']) {
+          if ($_SESSION['is_admin']) {
+            echo 'Admin: ' . $_SESSION['fio'];
+          } else {
+            echo $_SESSION['fio'];
+          }
+        } else {
+          ?>
+          <a href="/login.php">Login</a>
+          <?php
+        }
+    ?>
+  </header>
