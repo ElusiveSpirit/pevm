@@ -17,6 +17,25 @@
     return $db->query($sql);
   }
 
+  function user_delete($id) {
+    global $db;
+
+    $sql = "DELETE FROM users WHERE id = ".$id.";";
+
+    return $db->query($sql);
+  }
+
+  function user_update($id, $fio, $password, $is_verified, $is_admin) {
+    global $db;
+
+    $sql = "UPDATE users
+            SET fio = '".$fio.($password ? "', password = '".$password : "")."',
+            is_verified = ".$is_verified.", is_admin = ".$is_admin."
+            WHERE id = ".$id.";";
+
+    return $db->query($sql);
+  }
+
   function user_is_exists($fio) {
     global $db;
 
@@ -66,24 +85,21 @@
     }
   }
 
-  function users_get() {
-    $strSQL =  "SELECT `id`, `fio` FROM `users`";
+  function users_all() {
+    global $db;
 
-    // Выполнить запрос (набор данных $rs содержит результат)
-    $rs = mysql_query($strSQL);
-
-    // Цикл по $rs
-    while($row = mysql_fetch_array($rs)) {
-      // Имя человека
-      $strName = $row['fio'];
-
-      // Создать ссылку на person.php с id-value в URL
-      //   $strLink = "<a href = 'person.php?id = " . $row['id'] . "'>" . $strNavn . "</a>";
-
-      // Листинг ссылок
-      if ($strName != $_SESSION["fio"])
-      	echo "<li>" . $strName . "</li>";
-
+    if ($result = $db->query("SELECT * FROM `users`")) {
+      $ret = array();
+      while ($row = $result->fetch_assoc()) {
+        $ret[] = array(
+          'id' => $row['id'],
+          'fio' => $row['fio'],
+          'is_admin' => $row['is_admin'],
+          'is_verified' => $row['is_verified'],
+        );
+      }
+      $result->close();
+      return $ret;
     }
   }
 
