@@ -25,7 +25,7 @@ function checkFio($str) {
 	  * В нем должны быть символы латинского алфавита, цифры,
 	  * в нем могут быть символы '_', '-', '.'
 	  */
-	$pattern = '/^[-_.a-z\d]{4,16}$/i';
+	$pattern = '/^[-_.a-z\dА-Яа-яёЁ]{4,16}$/i';
 	$result = preg_match($pattern, $str);
 
 	// Если проверка не прошла, возвращаем сообщение об ошибке
@@ -112,14 +112,17 @@ function authorization($fio, $password) {
 
 	$user = user_fetch_with_password($fio, $password);
 
-	// И записываем в неё логин и пароль пользователя
-	// Для этого мы используем суперглобальный массив $_SESSION
-	$_SESSION['fio'] = $fio;
-	$_SESSION['password'] = $password;
-	session_update($user);
+	if ($user) {
+			// И записываем в неё логин и пароль пользователя
+			// Для этого мы используем суперглобальный массив $_SESSION
 
-	// Возвращаем true для сообщения об успешной авторизации пользователя
-	return true;
+			session_update($user);
+
+			// Возвращаем true для сообщения об успешной авторизации пользователя
+			return true;
+	}
+
+	return 'Неверно указан логин или пароль';
 }
 
 
@@ -138,16 +141,17 @@ function session_update($user=null, $new=false) {
 
 	$_SESSION['is_auth'] = false;
 
-	if (isset($_SESSION['fio']) && isset($_SESSION['fio'])) {
-		if (!$user) {
-			$user = checkAuth($_SESSION['fio'], $_SESSION['password']);
-		}
+	if ($user) {
+		$_SESSION['id'] = $user['id'];
+	} else if (isset($_SESSION['id'])) {
+		$user = user_fetch($_SESSION['id']);
+	}
 
-		if ($user) {
-			$_SESSION['is_admin'] = $user['is_admin'];
-			$_SESSION['is_verified'] = $user['is_verified'];
-			$_SESSION['is_auth'] = true;
-		}
+	if ($user) {
+		$_SESSION['fio'] = $user['fio'];
+		$_SESSION['is_admin'] = $user['is_admin'];
+		$_SESSION['is_verified'] = $user['is_verified'];
+		$_SESSION['is_auth'] = true;
 	}
 }
 

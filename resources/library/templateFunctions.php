@@ -1,8 +1,15 @@
 <?php
     require_once(realpath(dirname(__FILE__) . "/../config.php"));
 
+    function url($url)
+    {
+      global $config;
+      return $config['urls']['baseUrl'] . $url;
+    }
+
     function renderLayoutWithContentFile($contentFile, $variables = array())
     {
+        global $config;
         $contentFileFullPath = TEMPLATES_PATH . "/" . $contentFile;
 
         // making sure passed in variables are in scope of the template
@@ -17,9 +24,6 @@
 
         require_once(TEMPLATES_PATH . "/header.php");
 
-        echo "<div id=\"container\">\n"
-           . "\t<div id=\"content\">\n";
-
         if (file_exists($contentFileFullPath)) {
             require_once($contentFileFullPath);
         } else {
@@ -29,9 +33,6 @@
             */
             require_once(TEMPLATES_PATH . "/error.php");
         }
-
-        // close content div
-        echo "\t</div>\n";
 
         require_once(TEMPLATES_PATH . "/footer.php");
     }

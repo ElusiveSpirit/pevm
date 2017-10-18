@@ -18,7 +18,7 @@ $errors = array();
 $message = null;
 
 // Если была нажата кнопка авторизации
-if(isset($_POST['submit'])) {
+if($_POST) {
 	// Делаем массив сообщений об ошибках пустым
 	$errors['login'] = $errors['password'] = $errors['password_again'] = '';
 

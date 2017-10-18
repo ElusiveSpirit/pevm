@@ -8,7 +8,7 @@ $config = array(
         "host" => "localhost"
     ),
     "urls" => array(
-        "baseUrl" => "http://localhost"
+        "baseUrl" => "http://localhost:41062/www/public_html"
     ),
     "paths" => array(
         "resources" => "/path/to/resources",

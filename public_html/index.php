@@ -19,7 +19,6 @@
         'setInIndexDotPhp' => $setInIndexDotPhp
     );
 
-session_clear();
     // authorization('Фамилия Имя', '12345');
 
     // user_create('Фамилия Имя', '12345');
