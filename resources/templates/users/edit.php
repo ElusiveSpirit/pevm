@@ -6,7 +6,7 @@
 <?php } ?>
 
 <?php if ($user) { ?>
-<form method="post" action="<?php echo url('/user_detail.php?id='.$user['id']) ?>">
+<form method="post" action="<?php echo url('/users/edit.php?id='.$user['id']) ?>">
   <div class="form-group">
     <input value="<?php echo $user['fio'] ?>" type="text" class="form-control" name="fio" id="fio" placeholder="ФИО">
   </div>
@@ -25,13 +25,13 @@
       Администратор
     </label>
   </div>
-  <a href="<?php echo url('/user.php'); ?>" class="btn btn-secondary">Назад</a>
+  <a href="<?php echo url('/users/'); ?>" class="btn btn-secondary">Назад</a>
   <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
-<form action="<?php echo url('/user_delete.php'); ?>" method="post">
+<form action="<?php echo url('/users/delete.php'); ?>" method="post">
   <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
   <input type="submit" class="btn btn-danger float-right" value="Удалить">
 </form>
 <?php } else { ?>
-  <a href="<?php echo url('/user.php'); ?>" class="btn btn-secondary">Назад</a>
+  <a href="<?php echo url('/users/'); ?>" class="btn btn-secondary">Назад</a>
 <?php } ?>

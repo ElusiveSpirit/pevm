@@ -7,12 +7,12 @@
   require_once('database.php');
 
 
-  function user_create($fio, $password) {
+  function user_create($fio, $password, $is_verified=0, $is_admin=0) {
     global $db;
 
     $sql = "INSERT INTO `users`
         (`id`,`fio`,`password`, `is_admin`, `is_verified`) VALUES
-        (NULL, '" . $fio . "','" . $password . "', 0, 0)";
+        (NULL, '" . $fio . "','" . $password . "', ". $is_admin .", ". $is_verified .")";
 
     return $db->query($sql);
   }

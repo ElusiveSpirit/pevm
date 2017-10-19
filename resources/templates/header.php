@@ -19,7 +19,7 @@
       <ul class="navbar-nav mr-auto">
         <?php if ($_SESSION['is_auth'] && $_SESSION['is_admin']) { ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo url('/user.php') ?>">Пользователи</a>
+          <a class="nav-link" href="<?php echo url('/users/') ?>">Пользователи</a>
         </li>
         <?php } ?>
       </ul>

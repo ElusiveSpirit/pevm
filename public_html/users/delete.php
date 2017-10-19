@@ -1,5 +1,5 @@
 <?php
-  require_once(realpath(dirname(__FILE__) . "/../resources/config.php"));
+  require_once(realpath(dirname(__FILE__) . "/../../resources/config.php"));
 
   require_once(LIBRARY_PATH . "/templateFunctions.php");
   require_once(LIBRARY_PATH . "/database.php");
@@ -26,7 +26,7 @@
     header('Location: user.php');
   }
 
-  renderLayoutWithContentFile("user_detail.php", array(
+  renderLayoutWithContentFile("users/edit.php", array(
     'user' => $user,
     'status' => $status,
     'message' => $message

@@ -1,5 +1,5 @@
 <?php
-  require_once(realpath(dirname(__FILE__) . "/../resources/config.php"));
+  require_once(realpath(dirname(__FILE__) . "/../../resources/config.php"));
 
   require_once(LIBRARY_PATH . "/templateFunctions.php");
   require_once(LIBRARY_PATH . "/database.php");
@@ -12,7 +12,7 @@
   }
 
 
-  renderLayoutWithContentFile("user.php", array(
+  renderLayoutWithContentFile("users/index.php", array(
     'users_list' => users_all()
   ));
  ?>
