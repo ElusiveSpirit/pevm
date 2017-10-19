@@ -10,7 +10,7 @@ if($auth !== true) {
 	<?php } ?>
 	<form method="post">
 	  <div class="form-group">
-	    <input type="text" class="form-control" name="login" id="login" aria-describedby="emailHelp" placeholder="ФИО">
+	    <input type="text" class="form-control" name="login" id="login" aria-describedby="emailHelp" placeholder="ФИО" value="<?php echo $login; ?>">
 	  </div>
 	  <div class="form-group">
 	    <input type="password" class="form-control" name="password" id="password" placeholder="Пароль">

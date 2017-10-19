@@ -16,6 +16,7 @@ require_once(LIBRARY_PATH . "/auth.php");
 $auth = false;
 $errors = array();
 $message = null;
+$login = '';
 
 // Если была нажата кнопка авторизации
 if($_POST) {
@@ -46,6 +47,7 @@ if($_POST) {
 
 
 renderLayoutWithContentFile("login.php", array(
+	'login' => $login,
 	'errors' => $errors,
 	'auth' => $auth,
 	'message' => $message,
