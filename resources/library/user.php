@@ -39,7 +39,7 @@
   function user_is_exists($fio) {
     global $db;
 
-    if ($result = $db->query("SELECT `id` FROM `users` WHERE `fio`='" . $fio . "' LIMIT 1")) {
+    if ($result = $db->query("SELECT `id` FROM `users` WHERE `fio`='$fio' LIMIT 1")) {
       /* очищаем результирующий набор */
       $num = $result->num_rows;
       $result->close();
@@ -52,7 +52,7 @@
   {
     global $db;
 
-    if ($result = $db->query("SELECT * FROM `users` WHERE `id`=".$id.";")) {
+    if ($result = $db->query("SELECT * FROM `users` WHERE `id`=$id;")) {
       $ret = null;
       if ($row = $result->fetch_assoc()) {
         $ret = array(
