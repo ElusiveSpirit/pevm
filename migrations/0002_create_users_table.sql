@@ -1,3 +1,5 @@
+USE pvm;
+
 CREATE TABLE `pvm`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `fio` VARCHAR(120) NOT NULL ,
