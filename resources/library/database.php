@@ -24,6 +24,8 @@ function db_connect() {
 	    die("Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	}
 
+	$mysqli->query("SET NAMES UTF8");
+
 	return $mysqli;
 }
 
