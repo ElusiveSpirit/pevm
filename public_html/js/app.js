@@ -3,6 +3,7 @@ window.onload = function () {
 
   var data = {
     url: window.url,
+    urlDetail: window.urlDetail,
 
     steps: [
       'type',
@@ -24,16 +25,45 @@ window.onload = function () {
       analysises: null
     },
 
+    detailData: {
+      name: null,
+      text: null
+    },
+
     updateCurrentData: function (type, value) {
-      data.currentData[type] = value;
+      var isCurrent = false;
+      Object.keys(data.currentData).forEach(key => {
+        if (key === type) {
+          data.currentData[key] = value;
+        } else if (isCurrent) {
+          data.currentData[key] = null;
+        }
+      })
+    },
+
+    updateDetailData: function (type, value, callback) {
+      var obj = this;
+      console.log(type, value)
+      $.ajax({
+        type: 'GET',
+        url: this.urlDetail + '?' + $.param({ type, value }),
+        success: function (res) {
+          var data = JSON.parse(res);
+          console.log(data);
+
+          obj.detailData.name = data.name;
+          obj.detailData.text = data.text;
+
+          callback();
+        }
+      });
     },
 
     updateData: function (callback) {
       var obj = this;
       $.ajax({
         type: 'GET',
-        url: this.url,
-        params: this.currentData,
+        url: this.url + '?' + $.param(this.currentData),
         success: function (res) {
           var data = JSON.parse(res);
           console.log(data);
@@ -99,16 +129,57 @@ window.onload = function () {
         $(`.nav-link[data-class="${step}"]`).addClass('disabled');
       } else if (!data.currentData[step]) {
         activeFound = true;
-        $(`.nav-link[data-class="${step}"]`).addClass('active');
+        $(`.nav-link[data-class="${step}"]`).addClass('active').removeClass('disabled');
         $('#wrapper').html(`<h4 class="text-center mt-5">${data.emptyText[step]}</h4>`);
       } else {
         $(`.nav-link[data-class="${step}"]`).html(
           data[step][data.currentData[step]]
         );
-
+        $(`.nav-link[data-class="${step}"]`).addClass('disabled');
       }
     }
   }
+
+  function showDetails() {
+    $('#wrapper').html(`
+      <h4 class="text-center mt-5">${data.detailData.name}</h4>
+      <p>${data.detailData.text}</p>
+    `);
+
+    $('#btnNext').prop('disabled', false);
+  }
+
+  function toggleNextBtn() {
+    $('#btnNext').prop('disabled', !$('#btnNext').prop('disabled'));
+  }
+
+  $('#btnBack').click(function () {
+    console.log('Button back clicked');
+
+    for (var i = data.steps.length - 1; i >= 0; i--) {
+      var key = data.steps[i];
+
+      if (data.currentData[key] !== null) {
+        data.currentData[key] = null;
+        if (i == 0) {
+          $('#btnBack').prop('disabled', true);
+        }
+        break;
+      }
+    }
+
+    $('#btnNext').prop('disabled', false);
+
+    data.updateData(initStep);
+  });
+
+  $('#btnNext').click(function () {
+    $('#btnNext').prop('disabled', true);
+    $('#btnBack').prop('disabled', false);
+
+    data.updateData(initStep);
+  });
+
 
   $(document).on('click', '.dropdown-item', function () {
     var value = $(this).attr('value');
@@ -116,8 +187,9 @@ window.onload = function () {
 
     console.log(`Button was clicked. type='${type}', value='${value}'`);
 
+
     data.updateCurrentData(type, value);
-    data.updateData(initStep);
+    data.updateDetailData(type, value, showDetails);
   });
 
 
