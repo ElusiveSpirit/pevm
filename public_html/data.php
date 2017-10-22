@@ -26,6 +26,14 @@
     $response['weaknesses'] = fetch_weaknesses_list($_GET['type'] ? 1 : 0);
   }
 
+  if (strlen($_GET['weaknesses'])) {
+    $response['solutions'] = fetch_solutions_list($_GET['weaknesses']);
+  }
+
+  if (strlen($_GET['solutions'])) {
+    $response['analysises'] = fetch_analysises_list($_GET['solutions']);
+  }
+
 
   echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
