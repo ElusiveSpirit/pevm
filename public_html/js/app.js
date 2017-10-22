@@ -30,19 +30,34 @@ window.onload = function () {
       text: null
     },
 
-    updateCurrentDataFromURL: function (data) {
+    restoreState: function (data) {
       var obj = this;
       console.log('Init state from url', data);
-      this.steps.forEach(step => {
-        if (data[step]) {
-          obj.currentData[step] = data[step];
-        }
-      });
+
+      var count = [0].concat(Object.keys(data)).reduce((acc, key) => obj.steps.indexOf(key) !== -1 && data[key] ? acc + 1 : acc);
+
+      console.log('Count = ', count);
+
+      for (var i = 0; i < count - 1; i++) {
+        var step = this.steps[i];
+        this.currentData[step] = data[step];
+      }
 
       if (this.currentData[this.steps[0]]) {
         // Разблокируем кнопку назад если шаг не первый
         $('#btnBack').prop('disabled', false);
       }
+
+      // Загрузка данных с сервера
+      this.updateData(function () {
+        initStep();
+
+        if (count) {
+          var step = obj.steps[count - 1];
+          obj.currentData[step] = data[step];
+          obj.updateDetailData(step, data[step], showDetails);
+        }
+      });
     },
 
     updateCurrentData: function (type, value) {
@@ -132,6 +147,17 @@ window.onload = function () {
     })
   }
 
+  function updateReportNextButtons() {
+    if (data.currentData[data.steps[3]]) {
+      // Если последний шаг
+      $('#btnPrint').show();
+      $('#btnNext').hide();
+    } else {
+      $('#btnPrint').hide();
+      $('#btnNext').show();
+    }
+  }
+
   function initStep () {
     console.log('Init current step');
     clearActive();
@@ -153,6 +179,8 @@ window.onload = function () {
         $(`.nav-link[data-class="${step}"]`).addClass('disabled');
       }
     }
+
+    updateReportNextButtons();
   }
 
   function showDetails() {
@@ -162,6 +190,7 @@ window.onload = function () {
     `);
 
     $('#btnNext').prop('disabled', false);
+    updateReportNextButtons();
   }
 
   function toggleNextBtn() {
@@ -211,7 +240,6 @@ window.onload = function () {
 
 
   // Попытка восстановить состояние приложения после перезагрузки страницы
-  data.updateCurrentDataFromURL(searchParamsToObject());
-  // Загрузка данных с сервера
-  data.updateData(initStep);
+  data.restoreState(searchParamsToObject());
+
 };

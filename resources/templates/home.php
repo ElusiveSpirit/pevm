@@ -27,6 +27,7 @@
   <div class="mt-5">
     <button id="btnBack" class="btn btn-secondary" disabled>Назад</button>
     <button id="btnNext" class="btn btn-primary" disabled>Далее</button>
+    <button id="btnPrint" class="btn btn-danger">Отчёт</button>
   </div>
 
 </div>
