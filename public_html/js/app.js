@@ -225,6 +225,9 @@ window.onload = function () {
     data.updateData(initStep);
   });
 
+  $('#btnPrint').click(function () {
+    location.href = window.reportUrl + '?' + $.param(data.currentData);
+  });
 
   $(document).on('click', '.dropdown-item', function () {
     var value = $(this).attr('value');

@@ -35,6 +35,7 @@
 <script>
   window.urlDetail = '<?php echo url('/detail.php') ?>';
   window.url = '<?php echo url('/data.php') ?>';
+  window.reportUrl = '<?php echo url('/report.php') ?>';
 </script>
 <script src="<?php echo url('/js/utils.js') ?>"></script>
 <script src="<?php echo url('/js/app.js') ?>"></script>
