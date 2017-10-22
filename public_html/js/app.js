@@ -30,6 +30,21 @@ window.onload = function () {
       text: null
     },
 
+    updateCurrentDataFromURL: function (data) {
+      var obj = this;
+      console.log('Init state from url', data);
+      this.steps.forEach(step => {
+        if (data[step]) {
+          obj.currentData[step] = data[step];
+        }
+      });
+
+      if (this.currentData[this.steps[0]]) {
+        // Разблокируем кнопку назад если шаг не первый
+        $('#btnBack').prop('disabled', false);
+      }
+    },
+
     updateCurrentData: function (type, value) {
       var isCurrent = false;
       Object.keys(data.currentData).forEach(key => {
@@ -170,6 +185,7 @@ window.onload = function () {
 
     $('#btnNext').prop('disabled', false);
 
+    updateParams(data.currentData);
     data.updateData(initStep);
   });
 
@@ -189,9 +205,13 @@ window.onload = function () {
 
 
     data.updateCurrentData(type, value);
+    updateParams(data.currentData);
     data.updateDetailData(type, value, showDetails);
   });
 
 
+  // Попытка восстановить состояние приложения после перезагрузки страницы
+  data.updateCurrentDataFromURL(searchParamsToObject());
+  // Загрузка данных с сервера
   data.updateData(initStep);
 };
